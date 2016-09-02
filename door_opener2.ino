@@ -227,6 +227,11 @@ void loop() {
         }
       }
     }
+
+    //Turn off Fancy Lights no Matter what
+    digitalWrite(g1_led, LOW);
+    digitalWrite(g2_led, LOW);
+    digitalWrite(y_led, LOW);
   }
   
   
