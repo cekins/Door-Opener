@@ -158,7 +158,7 @@ void loop() {
     num_switches = 0;
 
     //Turn on first fancy light
-    digitalWrite(g1_led, HIGH);
+    digitalWrite(g2_led, HIGH);
     
     while(abs(millis()-time) < 2000) //this has a possibility of failing 1 in every 50 days
     {
@@ -174,7 +174,7 @@ void loop() {
       //Turn on other fancy lights
       if (num_switches == 2)
       {
-        digitalWrite(g2_led, HIGH);
+        digitalWrite(g1_led, HIGH);
       }
       if (num_switches == 4)
       {
