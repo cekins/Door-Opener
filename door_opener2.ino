@@ -70,82 +70,37 @@ void setup() {
 }
 
 void loop() {
-  delay(5);
+  delay(1);
   
   current_b1 = analogRead(b1);
   current_b2 = digitalRead(b2);
   current_b3 = digitalRead(b3);
   current_b4 = digitalRead(b4);
   
-  //power button
-  if (r_led_status)
-  {
+   /*
+    * Yellow button does not function the same; digital read does not work
   if (current_b1 < 500)
   {
     if (last_b1 > 500)
     {
-      if (g1_led_status)
-      {
-        for(unsigned long i = millis() - g1_time + 3600000; i > 3600000; i = i - 3600000)
-        {
-          delay(500);
-          digitalWrite(y_led, HIGH);
-          delay(100);
-          digitalWrite(y_led, LOW);
-        }
-      }
-      
-      if (g2_led_status)
-      {
-        for(unsigned long i = millis() - g2_time + 25200000; i > 3600000; i = i - 3600000)
-        {
-          delay(500);
-          digitalWrite(y_led, HIGH);
-          delay(100);
-          digitalWrite(y_led, LOW);
-        }
-      }
-      //trigger code
-      /*
-      if (y_led_status)
-      {
-        digitalWrite(y_led, LOW);
-        y_led_status = 0;
-      }
-      else
-      {
-        digitalWrite(y_led, HIGH);
-        y_led_status = 1;
-      }
-      */
     }
   }
+  */
+
+  /*
+   * Green Button 1does nothing
   if (!current_b2)
   {
     if (last_b2)
     {
-      if (g1_led_status)
-      {
-        digitalWrite(g1_led, LOW);
-        g1_led_status = 0;
-      }
-      else
-      {
-        digitalWrite(g1_led, HIGH);
-        g1_led_status = 1;
-        
-        g1_time = millis();
-      }
-      
-      //turn off other delay
-      if (g2_led_status)
-      {
-        g2_led_status = 0;
-        digitalWrite(g2_led, LOW);
-      }
+
     }
-    
   }
+  */
+
+  /*
+   * Green button 2 does nothing
+   
   if (!current_b3)
   {
     if (last_b3)
@@ -171,7 +126,8 @@ void loop() {
       }
     }
   }
-  }
+  */
+
   if (!current_b4)
   {
     if (last_b4)
@@ -195,15 +151,18 @@ void loop() {
     }
   }
   
-  if (micArrayUpdate(analogRead(mic)) && r_led_status && !g1_led_status && !g2_led_status)
+  if (micArrayUpdate(analogRead(mic)) && r_led_status)
   {
     time = millis();
     last_mic_function = 1;
     num_switches = 0;
+
+    //Turn on first fancy light
+    digitalWrite(g2_led, HIGH);
     
     while(abs(millis()-time) < 2000) //this has a possibility of failing 1 in every 50 days
     {
-      delay(10);
+      delay(5);
       if (last_mic_function != micArrayUpdate(analogRead(mic)))
       {
         ++num_switches;
@@ -211,11 +170,51 @@ void loop() {
         last_mic_function = !last_mic_function;
         
       }
+
+      //Turn on other fancy lights
+      if (num_switches == 2)
+      {
+        digitalWrite(g1_led, HIGH);
+      }
+      if (num_switches == 4)
+      {
+        digitalWrite(y_led, HIGH);
+      }
       
       if (num_switches >=5)
       {
        digitalWrite(relay, HIGH);
-        delay(2000);
+       delay(333);
+       //turn off fancy lights
+       digitalWrite(g1_led, LOW);
+       digitalWrite(g2_led, LOW);
+       digitalWrite(y_led, LOW);
+
+       delay(333);
+       //turn on fancy lights
+       digitalWrite(g1_led, HIGH);
+       digitalWrite(g2_led, HIGH);
+       digitalWrite(y_led, HIGH);
+
+       delay(333);
+       //turn off fancy lights
+       digitalWrite(g1_led, LOW);
+       digitalWrite(g2_led, LOW);
+       digitalWrite(y_led, LOW);
+
+       delay(333);
+       //turn on fancy lights
+       digitalWrite(g1_led, HIGH);
+       digitalWrite(g2_led, HIGH);
+       digitalWrite(y_led, HIGH);
+
+       delay(333);
+       //turn off fancy lights
+       digitalWrite(g1_led, LOW);
+       digitalWrite(g2_led, LOW);
+       digitalWrite(y_led, LOW);
+       
+       delay(333);
        digitalWrite(relay, LOW); 
        
        if (last_mic_function == 0)
@@ -228,43 +227,12 @@ void loop() {
         }
       }
     }
+
+    //Turn off Fancy Lights no Matter what
+    digitalWrite(g1_led, LOW);
+    digitalWrite(g2_led, LOW);
+    digitalWrite(y_led, LOW);
   }
-  
-  //check times
-  if (g1_led_status)//8 hour delay
-  {
-    if (g1_time > millis())
-    {
-        if (g1_time + 7200000 < millis() + 4294967295)
-        {
-          g1_led_status = 0;
-          digitalWrite(g1_led, LOW);
-        }
-    }
-    else if (g1_time + 7200000 < millis())
-    {
-      g1_led_status = 0;
-      digitalWrite(g1_led, LOW);
-    }
-    
-  }
-  if (g2_led_status)//2 hour delay
-  {
-    if (g2_time > millis())
-    {
-        if (g2_time + 28800000 < millis() + 4294967295)
-        {
-          g2_led_status = 0;
-          digitalWrite(g2_led, LOW);
-        }
-    }
-    else if (g2_time + 28800000 < millis())
-    {
-      g2_led_status = 0;
-      digitalWrite(g2_led, LOW);
-    }
-  }
-  
   
   
   last_b1 = current_b1;
