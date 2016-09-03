@@ -184,7 +184,6 @@ void loop() {
       if (num_switches >=5)
       {
        digitalWrite(relay, HIGH);
-       delay(333);
        //turn off fancy lights
        digitalWrite(g1_led, LOW);
        digitalWrite(g2_led, LOW);
@@ -215,6 +214,15 @@ void loop() {
        digitalWrite(y_led, LOW);
        
        delay(333);
+       digitalWrite(g1_led, HIGH);
+       digitalWrite(g2_led, HIGH);
+       digitalWrite(y_led, HIGH);
+       
+       delay(333);
+       digitalWrite(g1_led, LOW);
+       digitalWrite(g2_led, LOW);
+       digitalWrite(y_led, LOW);
+       
        digitalWrite(relay, LOW); 
        
        if (last_mic_function == 0)
