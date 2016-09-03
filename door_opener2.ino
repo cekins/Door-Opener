@@ -28,7 +28,7 @@ boolean current_b4;
 boolean y_led_status = 0;
 boolean g1_led_status = 0;
 boolean g2_led_status = 0;
-boolean r_led_status = 0;
+boolean r_led_status = 1;
 
 //mic Variables
 int past_values[8] = { 170, 170, 170, 170, 170, 170, 170, 170};
@@ -63,7 +63,7 @@ void setup() {
   digitalWrite(y_led, LOW);
   digitalWrite(g1_led, LOW);
   digitalWrite(g2_led, LOW);
-  digitalWrite(r_led, LOW);
+  digitalWrite(r_led, HIGH);
   
   digitalWrite(relay, LOW);
   
