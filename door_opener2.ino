@@ -1,4 +1,3 @@
-
 //Declare Pins
 int y_led = 2; //digital
 int g1_led = 12; //digital
@@ -6,7 +5,7 @@ int g2_led = 10; //digital
 int r_led = 13; //digital
 
 int b1 = 6; //analog (can't get digital read to work)
-int b2 = A4; //digital
+int wireless = A4; //digital
 int b3 = A2; //digital
 int b4 = A0; //digital
 
@@ -52,7 +51,7 @@ void setup() {
   pinMode(r_led, OUTPUT); 
   
   pinMode(b1, INPUT); 
-  pinMode(b2, INPUT); 
+  pinMode(wireless, INPUT); 
   pinMode(b3, INPUT); 
   pinMode(b4, INPUT); 
   
@@ -73,60 +72,9 @@ void loop() {
   delay(1);
   
   current_b1 = analogRead(b1);
-  current_b2 = digitalRead(b2);
   current_b3 = digitalRead(b3);
   current_b4 = digitalRead(b4);
   
-   /*
-    * Yellow button does not function the same; digital read does not work
-  if (current_b1 < 500)
-  {
-    if (last_b1 > 500)
-    {
-    }
-  }
-  */
-
-  /*
-   * Green Button 1does nothing
-  if (!current_b2)
-  {
-    if (last_b2)
-    {
-
-    }
-  }
-  */
-
-  /*
-   * Green button 2 does nothing
-   
-  if (!current_b3)
-  {
-    if (last_b3)
-    {
-      if (g2_led_status)
-      {
-        digitalWrite(g2_led, LOW);
-        g2_led_status = 0;
-      }
-      else
-      {
-        digitalWrite(g2_led, HIGH);
-        g2_led_status = 1;
-        
-        g2_time = millis();
-      }
-      
-      //turn off other delay
-      if (g1_led_status)
-      {
-        g1_led_status = 0;
-        digitalWrite(g1_led, LOW);
-      }
-    }
-  }
-  */
 
   if (!current_b4)
   {
@@ -149,6 +97,51 @@ void loop() {
         r_led_status = 1;
       }
     }
+  }
+  
+  if (r_led_status && digitalRead(wireless))
+  {
+  	digitalWrite(relay, HIGH);
+       //turn off fancy lights
+       digitalWrite(g1_led, LOW);
+       digitalWrite(g2_led, LOW);
+       digitalWrite(y_led, LOW);
+
+       delay(333);
+       //turn on fancy lights
+       digitalWrite(g1_led, HIGH);
+       digitalWrite(g2_led, HIGH);
+       digitalWrite(y_led, HIGH);
+
+       delay(333);
+       //turn off fancy lights
+       digitalWrite(g1_led, LOW);
+       digitalWrite(g2_led, LOW);
+       digitalWrite(y_led, LOW);
+
+       delay(333);
+       //turn on fancy lights
+       digitalWrite(g1_led, HIGH);
+       digitalWrite(g2_led, HIGH);
+       digitalWrite(y_led, HIGH);
+
+       delay(333);
+       //turn off fancy lights
+       digitalWrite(g1_led, LOW);
+       digitalWrite(g2_led, LOW);
+       digitalWrite(y_led, LOW);
+       
+       delay(333);
+       digitalWrite(g1_led, HIGH);
+       digitalWrite(g2_led, HIGH);
+       digitalWrite(y_led, HIGH);
+       
+       delay(333);
+       digitalWrite(g1_led, LOW);
+       digitalWrite(g2_led, LOW);
+       digitalWrite(y_led, LOW);
+       
+       digitalWrite(relay, LOW); 
   }
   
   if (micArrayUpdate(analogRead(mic)) && r_led_status)
