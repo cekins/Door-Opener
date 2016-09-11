@@ -263,7 +263,7 @@ bool micArrayUpdate(int new_value)
  }
   past_values[array_index] = new_value;
   
-  if (total_deviation > 50)
+  if (total_deviation > 400)
   {
     return 1; 
   }
@@ -272,3 +272,4 @@ bool micArrayUpdate(int new_value)
     return 0;
   }
 }
+
